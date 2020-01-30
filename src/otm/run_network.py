@@ -5,7 +5,8 @@ from matplotlib import pyplot as plt
 
 # define the input file
 this_folder = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-configfile = os.path.join(this_folder, 'network_v3.xml')
+root_folder = os.path.dirname(os.path.dirname(this_folder))
+configfile = os.path.join(root_folder,'cfg', 'network_v3.xml')
 
 # open the api
 otm = OTMWrapper(configfile)
