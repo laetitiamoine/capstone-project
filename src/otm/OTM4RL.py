@@ -1,7 +1,7 @@
 from OTMWrapper import OTMWrapper
-import gym
-from gym import spaces
-from gym.utils import seeding
+# import gym
+# from gym import spaces
+# from gym.utils import seeding
 
 class OTM4RL:
 
@@ -15,11 +15,21 @@ class OTM4RL:
         pass
 
     def get_queues(self):
-        pass
+        otm = self.otmwrapper.otm
+        queues = {}
+        for data in otm.output().get_data():
+            if "output.LinkVehicles" in data.toString():
+                for link_id in self.get_link_ids():
+                    queues[link_id] =data.get_value_for_link(link_id)
+        return queues
 
     def run_simulation(self,duration,output_dt):
-    	self.otmwrapper.run_simple(start_time=0., duration=duration, output_dt=output_dt)
+        self.otmwrapper.run_simple(start_time=0., duration=duration, output_dt=output_dt)
         self.Y = self.otmwrapper.get_state_trajectory()
+
+    def get_link_ids(self):
+        return self.otmwrapper.otm.scenario().get_link_ids()
+
 
 class otmEnvDiscrete:
 
@@ -40,9 +50,9 @@ class otmEnvDiscrete:
         # start otm with state
         self.state = state
 
-    def reset(self):
-        self.set_state(#random state)
-        return self.state
+    # def reset(self):
+    #     self.set_state(#random state)
+    #     return self.state
 
     def step(self, action):
         assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
