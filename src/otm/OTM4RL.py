@@ -2,6 +2,11 @@ from OTMWrapper import OTMWrapper
 import os
 import inspect
 
+# TO DO
+# 1) Gabriel implement OTM set vehicles in link
+# 2) Team hack get signal infrmation.
+# 3) Gabriel implement OTM set_signal_stage
+
 class OTM4RL:
 
     def __init__(self, configfile, jaxb_only=False):
@@ -23,74 +28,46 @@ class OTM4RL:
         return queues
 
     def get_max_queues(self):
-        pass
+        X = {}
+        for link_id in self.otmwrapper.otm.scenario().get_link_ids():
+            link = self.otmwrapper.otm.scenario().get_link_with_id(link_id)
+            X[link_id] = link.get_jam_density_vpkpl() * link.getFull_length() * link.getFull_lanes() / 1000
+        return X
 
-    def get_num_intersections(self):
-        pass
+    # returns a list of controllers
+    # each controller is a dictionary with
+    #   id
+    #   list of stages
+    #       each stage is a dictionary with
+    #       order
+    #       phases (list of phase ids)
+    def get_signal_controller_info(self):
+        X = [] # list of dictionary
+        # for controller in self.otmwrapper.otm.scenario().get_controllers():
+        #     if str(controller.getType())=='sig_pretimed':
+        #         print(controller)
+        #         print(controller.getPretimed_signal_info())
+        #         schedule = controller.getPretimed_signal_info().getSchedule()
+        #         stagelist = schedule[0].getStages()
+        #         # cntrl = {}
+        #         # cntrl['id'] = int(controller.getId())
+        #         # cntrl['stages'] = []
 
-    def reset_queues(queue_dictionary):
-        pass
 
-    def set_signals(signal_dictionary):
-        pass
+        # X = [
+        #     {COMPLETE THIS!!!}}
+        # ]
+
+
+        return X
+
+    def set_queues(self,queue_dictionary):
+        for link_id, vehs in queue_dictionary.items():
+            self.otmwrapper.otm.scenario().set_vehicles_in_link(link_id,vehs)
+
+    def set_signals(self,signal_command):
+        self.otmwrapper.otm.scenario().set_signal_stage(signal_command['id'],signal_command['green_stage_order'])
+
 
     def run_simulation(self,duration,output_dt):
         self.otmwrapper.run_simple(start_time=0., duration=duration, output_dt=output_dt)
-
-class otmEnvDiscrete:
-
-    def __init__(self, env_info, configfile):
-
-        self.otm4rl = OTM4RL(configfile)
-        self.env_info = env_info
-        self.num_intersections = self.otm4rl.get_num_intersections()
-        self.action_space = range(env_info.num_actions ** self.num_intersections)
-        self.observation_space = range(env_info.num_states ** (self.num_intersections * 2))
-        # self.seed()
-
-    # def seed(self, seed=None):
-    #     self.np_random, seed = seeding.np_random(seed)
-    #     return [seed]
-
-    def encode_state(state):
-        pass
-
-    def decode_action(action):
-        pass
-
-    def compute_reward(state):
-        pass
-
-    def set_state(self, state):
-        self.otm4rl.reset_queues(state)
-        self.state = self.encode_state(state)
-
-     def reset(self):
-         state = self.otm4rl.get_max_queues()
-         for link_id in state.keys():
-             state[link_id] = np.random.random(0,state[link_id])
-         self.set_state(state)
-         return self.state
-
-    def step(self, action):
-        assert self.action_space.contains(action), "%r (%s) invalid" % (action, type(action))
-
-        self.otm4rl.set_signals(self.decode_action(action))
-
-        self.otm4rl.run_simulation(time_step, time_step)
-
-        next_state = self.otm4rl.get_queues()
-
-        self.state = self.encode_state(next_state)
-        reward = self.compute_reward(self.state)
-
-        return self.state, reward
-    #
-    # def render(self, mode='human'):
-    #     #plot the queue profile over time
-    #     #render the network
-    #     pass
-    #
-    # def close(self):
-    #     #stop rendering
-    #     pass
