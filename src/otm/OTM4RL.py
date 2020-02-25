@@ -28,11 +28,11 @@ class OTM4RL:
         return queues
 
     def get_max_queues(self):
-        X = {}
+        max_queues = {}
         for link_id in self.otmwrapper.otm.scenario().get_link_ids():
             link = self.otmwrapper.otm.scenario().get_link_with_id(link_id)
             X[link_id] = link.get_jam_density_vpkpl() * link.getFull_length() * link.getFull_lanes() / 1000
-        return X
+        return max_queues
 
     # returns a list of controllers
     # each controller is a dictionary with
@@ -61,13 +61,20 @@ class OTM4RL:
 
         return X
 
+    def get_roadconnection_info(self, phase_id):
+        #return [{roadconnection_id: ..., in_link: ..., out_link: ...}, {...}]
+        pass
+
+    def get_num_intersections(self):
+        pass
+
     def set_queues(self,queue_dictionary):
         for link_id, vehs in queue_dictionary.items():
             self.otmwrapper.otm.scenario().set_vehicles_in_link(link_id,vehs)
 
     def set_signals(self,signal_command):
-        self.otmwrapper.otm.scenario().set_signal_stage(signal_command['id'],signal_command['green_stage_order'])
+        #self.otmwrapper.otm.scenario().set_signal_stage(signal_command['id'],signal_command['green_stage_order'])
+        pass
 
-
-    def run_simulation(self,duration,output_dt):
-        self.otmwrapper.run_simple(start_time=0., duration=duration, output_dt=output_dt)
+    def run_simulation(self,duration):
+        self.otmwrapper.run_simple(start_time=0., duration=duration, output_dt=duration)
