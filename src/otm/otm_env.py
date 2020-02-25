@@ -4,10 +4,10 @@ class otmEnvDiscrete:
 
         self.otm4rl = OTM4RL(configfile)
         self.num_states = env_info.num_states
-        self.num_intersections = self.otm4rl.get_num_intersections()
+        self.controllers = self.otm4rl.get_signal_controller_info()
+        self.num_intersections = len(self.controllers)
         self.action_space = range(env_info.num_actions ** self.num_intersections)
         self.state_space = range(env_info.num_states ** (self.num_intersections * 2))
-        self.controllers = self.otm4rl.get_signal_controller_info()
         self.max_queues = self.otm4rl.get_max_queues()
         # self.seed()
 
@@ -39,6 +39,7 @@ class otmEnvDiscrete:
                 encoded_state += encoded_stage_state * (self.num_states ** i)
                 i += 1
         return encoded_state, state_vec
+
     def decode_action(action):
         a = action
         action_vec = []
@@ -56,9 +57,6 @@ class otmEnvDiscrete:
             i += 1
 
         return decoded_action
-
-    def compute_reward(state):
-        pass
 
     def set_state(self, state):
         self.otm4rl.reset_queues(state)
@@ -80,8 +78,8 @@ class otmEnvDiscrete:
 
         next_state = self.otm4rl.get_queues()
 
-        self.state = self.encode_state(next_state)
-        reward = self.compute_reward(self.state)
+        self.state, state_vec = self.encode_state(next_state)
+        reward = -state_vec.sum()
 
         return self.state, reward
     #

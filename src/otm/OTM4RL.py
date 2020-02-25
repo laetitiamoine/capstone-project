@@ -65,9 +65,6 @@ class OTM4RL:
         #return [{roadconnection_id: ..., in_link: ..., out_link: ...}, {...}]
         pass
 
-    def get_num_intersections(self):
-        pass
-
     def set_queues(self,queue_dictionary):
         for link_id, vehs in queue_dictionary.items():
             self.otmwrapper.otm.scenario().set_vehicles_in_link(link_id,vehs)
