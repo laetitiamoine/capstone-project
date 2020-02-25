@@ -17,6 +17,7 @@ class otmEnvDiscrete:
 
     def encode_state(state):
         encoded_state = 0
+        state_vec = []
         i = 0
         for controller in self.controllers:
             stages = controller["stages"]
@@ -34,12 +35,27 @@ class otmEnvDiscrete:
                     agg_queue += state[link_id]
                     max_queue += self.max_queues[link_id]
                 encoded_stage_state = math.floor(agg_queue * self.num_states / max_queue))
-                encoded_state += encoded_stage_state*(self.num_states**i)
+                state_vec.append(encoded_stage_state)
+                encoded_state += encoded_stage_state * (self.num_states ** i)
                 i += 1
-        return encoded_state
-
+        return encoded_state, state_vec
     def decode_action(action):
-        pass
+        a = action
+        action_vec = []
+        while a != 0:
+            action_vec.append(a % self.num_actions)
+            a = a // self.num_actions
+        action_vec.reverse()
+
+        decoded_action = []
+        i = 0
+        for controller in self.controllers:
+            signal_command = {"controller_id": controller["id"],
+                              "green_stage_order": controller["stages"][decoded_action[i]]["order_id"]}
+            decoded_action.append(signal_command)
+            i += 1
+
+        return decoded_action
 
     def compute_reward(state):
         pass
