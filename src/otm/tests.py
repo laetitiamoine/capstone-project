@@ -68,7 +68,7 @@ def test_set_signals():
 	# create a signal command
 	this_signal = signal_info[0]
 	signal_command['id'] = this_signal['id']
-	signal_command['green_stage_order'] = this_signal['stages'][0]['order'] 
+	signal_command['green_stage_order'] = this_signal['stages'][0]['order']
 
 	otm4rl.set_signal(signal_command)
 
@@ -113,4 +113,4 @@ def test_get_signal_controller_info():
 	del otm4rl
 
 if __name__ == '__main__':
-	print(test_set_queues())
+	print(test_get_max_queues())

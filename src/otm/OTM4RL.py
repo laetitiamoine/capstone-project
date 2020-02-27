@@ -31,7 +31,7 @@ class OTM4RL:
         max_queues = {}
         for link_id in self.otmwrapper.otm.scenario().get_link_ids():
             link = self.otmwrapper.otm.scenario().get_link_with_id(link_id)
-            X[link_id] = link.get_jam_density_vpkpl() * link.getFull_length() * link.getFull_lanes() / 1000
+            max_queues[link_id] = link.get_jam_density_vpkpl() * link.getFull_length() * link.getFull_lanes() / 1000
         return max_queues
 
     # returns a list of controllers
