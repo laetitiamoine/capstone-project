@@ -89,7 +89,8 @@ def test_set_queues():
 	# create random map
 	myqueues = otm4rl.get_max_queues()
 	for link_id in myqueues.keys():
-		myqueues[link_id] = np.random.random()*myqueues[link_id]
+		myqueues[link_id]['vehs_waiting'] = np.random.random()*myqueues[link_id]
+		myqueues[link_id]['vehs_transit'] = np.random.random()*myqueues[link_id]
 
 	advance_time = 60.
 

@@ -21,6 +21,7 @@
 		<model type="ctm" name="myctm" is_default="true">
 			<model_params sim_dt="2" max_cell_length="100"/>
 		</model>
+    <!-- <model type="spaceq" name="sq" is_default="true"/> -->
 	</models>
 
 	<network>
