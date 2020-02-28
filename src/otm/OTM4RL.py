@@ -21,10 +21,11 @@ class OTM4RL:
     def get_queues(self):
         otm = self.otmwrapper.otm
         queues = {}
-        for data in otm.output().get_data():
-            if "output.LinkVehicles" in data.toString():
-                for link_id in self.get_link_ids():
-                    queues[link_id] = data.get_value_for_link(link_id)
+
+        for link_id in self.get_link_ids():
+            X = self.otmwrapper.otm.scenario().get_link_queues(link_id)
+            queues[link_id] = {'waiting':X.waiting(),'transit':X.transit()} 
+
         return queues
 
     def get_max_queues(self):
@@ -66,8 +67,8 @@ class OTM4RL:
         pass
 
     def set_queues(self,queue_dictionary):
-        for link_id, vehs_waiting, vehicles_transit in queue_dictionary.items():
-            self.otmwrapper.otm.scenario().set_link_vehicles(link_id,int(vehs_waiting),int(vehicles_transit))
+        for link_id, q4link in queue_dictionary.items():
+            self.otmwrapper.otm.scenario().set_link_vehicles(link_id,int(q4link['waiting']),int(q4link['transit']))
 
     def set_signals(self,signal_command):
         self.otmwrapper.otm.scenario().set_signal_stage(signal_command['id'],signal_command['green_stage_order'])
