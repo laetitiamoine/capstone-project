@@ -2,11 +2,6 @@ from OTMWrapper import OTMWrapper
 import os
 import inspect
 
-# TO DO
-# 1) Gabriel implement OTM set vehicles in link
-# 2) Team hack get signal infrmation.
-# 3) Gabriel implement OTM set_signal_stage
-
 class OTM4RL:
 
     def __init__(self, configfile, jaxb_only=False):
@@ -21,14 +16,9 @@ class OTM4RL:
     def get_queues(self):
         otm = self.otmwrapper.otm
         queues = {}
-        print(otm.output().get_data())
-        for data in otm.output().get_data():
-            if "output.OutputQueues" in data.toString():
-                for link_id in self.get_link_ids():
-                    queues[link_id] = {}
-                    print(link_id)
-                    queues[link_id]["waiting"] = data.get_waiting_for_link(link_id)
-                    queues[link_id]["transit"] = data.get_transit_for_link(link_id)
+        for link_id in self.get_link_ids():
+            X = self.otmwrapper.otm.scenario().get_link_queues(link_id)
+            queues[link_id] = {'waiting':X.waiting(),'transit':X.transit()}
         return queues
 
     def get_max_queues(self):
@@ -71,7 +61,7 @@ class OTM4RL:
 
     def set_queues(self,queue_dictionary):
         for link_id, vehs in queue_dictionary.items():
-            self.otmwrapper.otm.scenario().set_link_vehicles(link_id,int(vehs["waiting"]),int(vehicles["transit"]))
+            self.otmwrapper.otm.scenario().set_link_vehicles(link_id,int(vehs["waiting"]),int(vehs["transit"]))
 
     def set_signals(self,signal_command):
         self.otmwrapper.otm.scenario().set_signal_stage(signal_command['id'],signal_command['green_stage_order'])
