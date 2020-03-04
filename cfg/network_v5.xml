@@ -163,68 +163,68 @@
 
 	 <splits>
 
-    <split_node node_id="2" commodity_id="1" link_in="2" start_time="0" dt="1">
+    <split_node node_id="2" commodity_id="1" link_in="2">
       <split link_out="16">0.005</split>
       <split link_out="3">0.99</split>
       <split link_out="13">0.005</split>
     </split_node>
 
-    <split_node node_id="3" commodity_id="1" link_in="3" start_time="0" dt="1">
+    <split_node node_id="3" commodity_id="1" link_in="3">
       <split link_out="22">0.005</split>
       <split link_out="4">0.99</split>
       <split link_out="19">0.005</split>
     </split_node>
 
-    <split_node node_id="4" commodity_id="1" link_in="4" start_time="0" dt="1">
+    <split_node node_id="4" commodity_id="1" link_in="4">
       <split link_out="28">0.005</split>
       <split link_out="5">0.99</split>
       <split link_out="25">0.005</split>
     </split_node>
 
-    <split_node node_id="4" commodity_id="1" link_in="7" start_time="0" dt="1">
+    <split_node node_id="4" commodity_id="1" link_in="7">
       <split link_out="25">0.005</split>
       <split link_out="8">0.99</split>
       <split link_out="28">0.005</split>
     </split_node>
 
-    <split_node node_id="3" commodity_id="1" link_in="8" start_time="0" dt="1">
+    <split_node node_id="3" commodity_id="1" link_in="8">
       <split link_out="19">0.005</split>
       <split link_out="9">0.99</split>
       <split link_out="22">0.005</split>
     </split_node>
 
-    <split_node node_id="2" commodity_id="1" link_in="9" start_time="0" dt="1">
+    <split_node node_id="2" commodity_id="1" link_in="9">
       <split link_out="13">0.005</split>
       <split link_out="10">0.99</split>
       <split link_out="16">0.005</split>
     </split_node>
 
-    <split_node node_id="2" commodity_id="1" link_in="12" start_time="0" dt="1">
+    <split_node node_id="2" commodity_id="1" link_in="12">
       <split link_out="13">0.7</split>
       <split link_out="10">0.3</split>
     </split_node>
 
-    <split_node node_id="2" commodity_id="1" link_in="15" start_time="0" dt="1">
+    <split_node node_id="2" commodity_id="1" link_in="15">
       <split link_out="16">0.7</split>
       <split link_out="3">0.3</split>
     </split_node>
 
-    <split_node node_id="3" commodity_id="1" link_in="21" start_time="0" dt="1">
+    <split_node node_id="3" commodity_id="1" link_in="21">
       <split link_out="4">0.7</split>
       <split link_out="22">0.3</split>
     </split_node>
 
-    <split_node node_id="3" commodity_id="1" link_in="18" start_time="0" dt="1">
+    <split_node node_id="3" commodity_id="1" link_in="18">
       <split link_out="9">0.7</split>
       <split link_out="19">0.3</split>
     </split_node>
 
-    <split_node node_id="4" commodity_id="1" link_in="24" start_time="0" dt="1">
+    <split_node node_id="4" commodity_id="1" link_in="24">
       <split link_out="25">0.7</split>
       <split link_out="8">0.3</split>
     </split_node>
 
-    <split_node node_id="4" commodity_id="1" link_in="27" start_time="0" dt="1">
+    <split_node node_id="4" commodity_id="1" link_in="27">
       <split link_out="28">0.7</split>
       <split link_out="5">0.3</split>
     </split_node>
