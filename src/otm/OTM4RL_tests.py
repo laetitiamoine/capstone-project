@@ -60,7 +60,7 @@ def test_set_queues():
 	# always end by deleting the wrapper
 	del otm4rl
 
-# done
+# not done
 def test_get_signal_controller_info():
 	otm4rl = get_otm4rl()
 	print(otm4rl.get_signal_controller_info())

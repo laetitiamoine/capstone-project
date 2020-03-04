@@ -28,15 +28,37 @@ class OTM4RL:
             max_queues[link_id] = link.get_jam_density_vpkpl() * link.getFull_length() * link.getFull_lanes() / 1000
         return max_queues
 
-    # returns a list of controllers
-    # each controller is a dictionary with
-    #   id
-    #   list of stages
-    #       each stage is a dictionary with
-    #       order
-    #       phases (list of phase ids)
     def get_signal_controller_info(self):
-        X = [] # list of dictionary
+        X = [{"controller_id": 1,
+              "stages": [{"order_id": 1,
+                          "phase_ids": [1, 6]},
+                         {"order_id": 2,
+                          "phase_ids": [7]},
+                         {"order_id": 3,
+                          "phase_ids": [12]},
+                         {"order_id": 4,
+                          "phase_ids": [13, 14]}]},
+             {"controller_id": 2,
+              "stages": [{"order_id": 1,
+                          "phase_ids": [2, 5]},
+                         {"order_id": 2,
+                          "phase_ids": [8]},
+                         {"order_id": 3,
+                          "phase_ids": [11]},
+                         {"order_id": 4,
+                          "phase_ids": [15, 16]}]},
+             {"controller_id": 3,
+              "stages": [{"order_id": 1,
+                          "phase_ids": [3, 4]},
+                         {"order_id": 2,
+                          "phase_ids": [9]},
+                         {"order_id": 3,
+                          "phase_ids": [10]},
+                         {"order_id": 4,
+                          "phase_ids": [17, 18]}]}
+            ]
+
+        # list of dictionary
         # for controller in self.otmwrapper.otm.scenario().get_controllers():
         #     if str(controller.getType())=='sig_pretimed':
         #         print(controller)
@@ -46,12 +68,6 @@ class OTM4RL:
         #         # cntrl = {}
         #         # cntrl['id'] = int(controller.getId())
         #         # cntrl['stages'] = []
-
-
-        # X = [
-        #     {COMPLETE THIS!!!}}
-        # ]
-
 
         return X
 
@@ -65,7 +81,6 @@ class OTM4RL:
 
     def set_signals(self,signal_command):
         self.otmwrapper.otm.scenario().set_signal_stage(signal_command['id'],signal_command['green_stage_order'])
-
 
     def run_simulation(self,duration):
         self.otmwrapper.run_simple(start_time=0., duration=duration, output_dt=10)

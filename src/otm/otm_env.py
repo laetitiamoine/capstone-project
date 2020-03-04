@@ -1,13 +1,17 @@
+import numpy as np
+from OTM4RL import OTM4RL
+
 class otmEnvDiscrete:
 
     def __init__(self, env_info, configfile):
 
         self.otm4rl = OTM4RL(configfile)
-        self.num_states = env_info.num_states
+        self.num_states = env_info["num_states"]
+        self.num_actions = env_info["num_actions"]
         self.controllers = self.otm4rl.get_signal_controller_info()
         self.num_intersections = len(self.controllers)
-        self.action_space = range(env_info.num_actions ** self.num_intersections)
-        self.state_space = range(env_info.num_states ** (self.num_intersections * 2))
+        self.action_space = range(self.num_actions ** self.num_intersections)
+        self.state_space = range(self.num_states ** (self.num_intersections * 2))
         self.max_queues = self.otm4rl.get_max_queues()
         # self.seed()
 
@@ -16,7 +20,7 @@ class otmEnvDiscrete:
     #     return [seed]
 
     #CHANGE FOR NEW DICTIONARY
-    def encode_state(state):
+    def encode_state(self, state):
         encoded_state = 0
         state_vec = []
         i = 0
@@ -33,27 +37,28 @@ class otmEnvDiscrete:
                         in_link_ids.append(road_connection["in_link"])
                 in_link_ids = list(set(in_link_ids))
                 for link_id in in_link_ids:
-                    agg_queue += state[link_id]
+                    agg_queue += state[link_id]["waiting"]
                     max_queue += self.max_queues[link_id]
-                encoded_stage_state = math.floor(agg_queue * self.num_states / max_queue))
+                encoded_stage_state = math.floor(agg_queue * self.num_states / max_queue)
                 state_vec.append(encoded_stage_state)
                 encoded_state += encoded_stage_state * (self.num_states ** i)
                 i += 1
         return encoded_state, state_vec
 
-    def decode_action(action):
+    def decode_action(self, action):
         a = action
-        action_vec = []
+        action_vec = list(np.zeros(self.num_intersections).astype(int))
+        i = self.num_intersections - 1
         while a != 0:
-            action_vec.append(a % self.num_actions)
+            action_vec[i] = a % self.num_actions
             a = a // self.num_actions
-        action_vec.reverse()
-
+            i -= 1
+        print(action_vec)
         decoded_action = []
         i = 0
         for controller in self.controllers:
-            signal_command = {"controller_id": controller["id"],
-                              "green_stage_order": controller["stages"][decoded_action[i]]["order_id"]}
+            signal_command = {"controller_id": controller["controller_id"],
+                              "green_stage_order": controller["stages"][action_vec[i]]["order_id"]}
             decoded_action.append(signal_command)
             i += 1
 
