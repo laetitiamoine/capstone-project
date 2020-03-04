@@ -21,10 +21,14 @@ class OTM4RL:
     def get_queues(self):
         otm = self.otmwrapper.otm
         queues = {}
+        print(otm.output().get_data())
         for data in otm.output().get_data():
-            if "output.LinkVehicles" in data.toString():
+            if "output.OutputQueues" in data.toString():
                 for link_id in self.get_link_ids():
-                    queues[link_id] = data.get_value_for_link(link_id)
+                    queues[link_id] = {}
+                    print(link_id)
+                    queues[link_id]["waiting"] = data.get_waiting_for_link(link_id)
+                    queues[link_id]["transit"] = data.get_transit_for_link(link_id)
         return queues
 
     def get_max_queues(self):
@@ -66,12 +70,12 @@ class OTM4RL:
         pass
 
     def set_queues(self,queue_dictionary):
-        for link_id, vehs_waiting, vehicles_transit in queue_dictionary.items():
-            self.otmwrapper.otm.scenario().set_link_vehicles(link_id,int(vehs_waiting),int(vehicles_transit))
+        for link_id, vehs in queue_dictionary.items():
+            self.otmwrapper.otm.scenario().set_link_vehicles(link_id,int(vehs["waiting"]),int(vehicles["transit"]))
 
     def set_signals(self,signal_command):
         self.otmwrapper.otm.scenario().set_signal_stage(signal_command['id'],signal_command['green_stage_order'])
 
 
     def run_simulation(self,duration):
-        self.otmwrapper.run_simple(start_time=0., duration=duration, output_dt=duration)
+        self.otmwrapper.run_simple(start_time=0., duration=duration, output_dt=10)

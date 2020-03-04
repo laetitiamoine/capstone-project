@@ -15,7 +15,7 @@ def get_otm4rl():
 # done
 def test_run_simulation():
 	otm4rl = get_otm4rl()
-	otm4rl.run_simulation(600,60)
+	return otm4rl.run_simulation(600)
 
 # done
 def test_get_link_ids():
@@ -26,14 +26,11 @@ def test_get_link_ids():
 def test_get_queues():
 	otm4rl = get_otm4rl()
 
-	advance_time = 60.
-	duration = 120.
+	advance_time = 600.
 	time = 0.
 
-	otm4rl.otmwrapper.output().request_links_veh(link_ids,advance_time)
 	otm4rl.otmwrapper.initialize(float(0))
 
-	while(time<duration):
 		otm4rl.otmwrapper.otm.advance(advance_time)
 		queues = otm4rl.get_queues()
 		print(queues)
@@ -87,16 +84,18 @@ def test_set_queues():
 	otm4rl = get_otm4rl()
 
 	# create random map
-	myqueues = otm4rl.get_max_queues()
-	for link_id in myqueues.keys():
-		myqueues[link_id]['vehs_waiting'] = np.random.random()*myqueues[link_id]
-		myqueues[link_id]['vehs_transit'] = np.random.random()*myqueues[link_id]
+	#myqueues = otm4rl.get_max_queues()
+	myqueues = {
+	1: {"waiting": 3, "transit": 5},
+	2: {"waiting": 5, "transit": 3}
+	}
+	# for link_id in myqueues.keys():
+	# 	myqueues[link_id]['vehs_waiting'] = np.random.random()*myqueues[link_id]
+	# 	myqueues[link_id]['vehs_transit'] = np.random.random()*myqueues[link_id]
 
 	advance_time = 60.
 
-	otm4rl.otmwrapper.initialize(float(0))
-
-	otm4rl.otmwrapper.otm.advance(advance_time)
+	otm4rl.otmwrapper.run_simple(start_time=0,duration=3000,output_dt=10)
 
 	print( otm4rl.get_queues() )
 
@@ -114,4 +113,4 @@ def test_get_signal_controller_info():
 	del otm4rl
 
 if __name__ == '__main__':
-	print(test_get_max_queues())
+	print(test_get_queues())

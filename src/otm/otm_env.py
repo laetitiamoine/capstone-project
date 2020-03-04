@@ -15,6 +15,7 @@ class otmEnvDiscrete:
     #     self.np_random, seed = seeding.np_random(seed)
     #     return [seed]
 
+    #CHANGE FOR NEW DICTIONARY
     def encode_state(state):
         encoded_state = 0
         state_vec = []
@@ -59,9 +60,10 @@ class otmEnvDiscrete:
         return decoded_action
 
     def set_state(self, state):
-        self.otm4rl.reset_queues(state)
+        self.otm4rl.set_queues(state)
         self.state = self.encode_state(state)
 
+    #CHANGE FOR NEY QUEUE DICTIONARY
     def reset(self):
          state = self.max_queues.copy()
          for link_id in state.keys():
