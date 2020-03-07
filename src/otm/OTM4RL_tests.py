@@ -6,7 +6,7 @@ from OTM4RL import OTM4RL
 def get_config():
 	this_folder = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 	root_folder = os.path.dirname(os.path.dirname(this_folder))
-	configfile = os.path.join(root_folder,'cfg', 'network_v3.xml')
+	configfile = os.path.join(root_folder,'cfg', 'network_v4.xml')
 	return configfile
 
 def get_otm4rl():
@@ -75,11 +75,7 @@ def test_set_signals():
 
 	otm4rl = get_otm4rl()
 
-
 	signal_info = otm4rl.get_signal_controller_info()
-
-
-
 
 	advance_time = 60.
 

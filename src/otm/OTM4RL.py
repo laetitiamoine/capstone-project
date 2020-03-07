@@ -76,8 +76,8 @@ class OTM4RL:
         pass
 
     def set_queues(self,queue_dictionary):
-        for link_id, vehs in queue_dictionary.items():
-            self.otmwrapper.otm.scenario().set_link_vehicles(link_id,int(vehs["waiting"]),int(vehs["transit"]))
+        for link_id, q4link in queue_dictionary.items():
+            self.otmwrapper.otm.scenario().set_link_vehicles(link_id,int(q4link['waiting']),int(q4link['transit']))
 
     def set_signals(self,signal_command):
         self.otmwrapper.otm.scenario().set_signal_stage(signal_command['id'],signal_command['green_stage_order'])

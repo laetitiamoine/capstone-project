@@ -15,21 +15,22 @@
     <demand link_id="20" commodity_id="1" dt="1000">750,0</demand>
     <demand link_id="23" commodity_id="1" dt="1000">750,0</demand>
     <demand link_id="26" commodity_id="1" dt="1000">750,0</demand>
-  </demands>
+	</demands>
 
-  <models>
-    <model type="ctm" name="myctm" is_default="true">
-      <model_params sim_dt="2" max_cell_length="100"/>
-    </model>
-  </models>
+	<models>
+<!-- 		<model type="ctm" name="myctm" is_default="true">
+			<model_params sim_dt="2" max_cell_length="100"/>
+		</model> -->
+    <model type="spaceq" name="sq" is_default="true"/>
+	</models>
 
-  <network>
+	<network>
 
-    <nodes>
-      <node id="1" x="-100" y="0"/>
-      <node id="10" x="0" y="0"/>
-      <node id="2" x="1000" y="0"/>
-      <node id="3" x="2000" y="0"/>
+		<nodes>
+			<node id="1" x="-100" y="0"/>
+			<node id="10" x="0" y="0"/>
+			<node id="2" x="1000" y="0"/>
+			<node id="3" x="2000" y="0"/>
       <node id="4" x="3000" y="0"/>
       <node id="50" x="4000" y="0"/>
       <node id="5" x="4100" y="0"/>
@@ -98,7 +99,7 @@
 
       <roadconnection id="2" in_link="2"  out_link="13"/>
       <roadconnection id="3" in_link="2"  out_link="3"/>
-      
+
       <roadconnection id="5" in_link="3"  out_link="19"/>
       <roadconnection id="6" in_link="3"  out_link="4"/>
 
@@ -120,7 +121,7 @@
 
       <roadconnection id="22" in_link="12"  out_link="10"/>
       <roadconnection id="23" in_link="12"  out_link="13"/>
-   
+
       <roadconnection id="25" in_link="14"  out_link="15"/>
 
       <roadconnection id="26" in_link="15"  out_link="3"/>
@@ -310,8 +311,8 @@
         <phase id="9" roadconnection_ids="30,31"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
 
         <phase id="10" roadconnection_ids="34,35"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-        
-        
+
+
 
 
       </signal>
@@ -349,7 +350,7 @@
     <target_actuators ids="1"/>
 
       <schedule>
-      
+
         <schedule_item start_time="0" cycle="100" offset="30">
 
           <stages>
@@ -371,7 +372,7 @@
     <target_actuators ids="2"/>
 
       <schedule>
-      
+
         <schedule_item start_time="0" cycle="100" offset="30">
 
           <stages>
@@ -394,7 +395,7 @@
     <target_actuators ids="3"/>
 
       <schedule>
-      
+
         <schedule_item start_time="0" cycle="100" offset="30">
 
           <stages>
