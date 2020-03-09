@@ -6,7 +6,7 @@ from OTM4RL import OTM4RL
 def get_config():
 	this_folder = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 	root_folder = os.path.dirname(os.path.dirname(this_folder))
-	configfile = os.path.join(root_folder,'cfg', 'network_v4.xml')
+	configfile = os.path.join(root_folder,'cfg', 'network_v6.xml')
 	return configfile
 
 def get_otm4rl():
@@ -76,11 +76,10 @@ def test_set_queues():
 	# always end by deleting the wrapper
 	del otm4rl
 
-# RETURNS EMPTY
-def test_get_controller_info():
+# done
+def test_get_controllers():
 	otm4rl = get_otm4rl()
-	X = otm4rl.get_controller_info()
-
+	X = otm4rl.get_controller_infos()
 
 	print('cycle',X[2]['cycle'])
 	print('offset',X[2]['offset'])
@@ -90,39 +89,56 @@ def test_get_controller_info():
 
 	del otm4rl
 
-# TO DO
+# done
 def test_get_signals():
-	pass
-
-# FAILS
-def test_set_signals():
-
-	# my_signals[controller_id] = green stage id
-	my_signals = {}
 
 	otm4rl = get_otm4rl()
+	X = otm4rl.get_signals()
+	
+	print('node_id',X[2]['node_id'])
+	for phaseid,phase in X[2]['phases'].items():
+		print(phaseid,'rcs',phase['rcs'])
+		print(phaseid,'y',phase['y'])
+		print(phaseid,'r',phase['r'])
+		print(phaseid,'ming',phase['ming'])
 
-	signal_info = otm4rl.get_signal_controller_info()
+	del otm4rl
 
-	advance_time = 60.
+# done
+def test_set_control():
 
+	otm4rl = get_otm4rl()
 	otm4rl.otmwrapper.initialize(float(0))
+	otm4rl.otmwrapper.otm.advance(float(60))
 
-	otm4rl.otmwrapper.otm.advance(advance_time)
-
-	# print stage order ids currently green
-
-	# create a signal command
-	this_signal = signal_info[0]
-	signal_command['id'] = this_signal['id']
-	signal_command['green_stage_order'] = this_signal['stages'][0]['order']
-
-	otm4rl.set_signal(signal_command)
+	# action[controller_id] = active stage id
+	otm4rl.set_control({1:1,2:3,3:3})
+	otm4rl.otmwrapper.otm.advance(float(300))
 
 	# print stage order ids currently green
 
 	del otm4rl
 
+# done
+def test_get_control():
+
+	otm4rl = get_otm4rl()
+	otm4rl.otmwrapper.initialize(float(0))
+	otm4rl.otmwrapper.otm.advance(float(60))
+
+	# action[controller_id] = active stage id
+	control = otm4rl.get_control()
+
+	print(control)
+
+
+	otm4rl.set_control({1:1,2:3,3:3})
+	otm4rl.otmwrapper.otm.advance(float(10))
+
+	print(control)
+
+
+	del otm4rl
 
 if __name__ == '__main__':
-	print(test_get_controller_info())
+	print(test_get_control())

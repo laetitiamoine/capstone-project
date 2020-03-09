@@ -42,43 +42,40 @@ class OTM4RL:
         for link_id, q4link in queue_dictionary.items():
             self.otmwrapper.otm.scenario().set_link_vehicles(link_id,int(q4link['waiting']),int(q4link['transit']))
 
-    # returns map from signal id to object
-    # each controller is a dictionary with
-    #   list of stages
-    #       each stage is a dictionary with
-    #       order
-    #       phases (list of phase ids)
-    # def get_signal_info(self):
-    #     X = {} # id to controller
-    #     for ocntrl in self.otmwrapper.otm.scenario().get_controllers():
-    #         if str(ocntrl.getType())=='sig_pretimed':
+    # returns map from signal id to to a signal object (a dict)
+    # psig['node_id']
+    # psig['phases'] a map from pphase id to phase object (a dict)
+    #       x['rcs'] ... a set of road connection ids
+    #       x['y'] ... yellow_time
+    #       x['r'] ... red_clear_time
+    #       x['ming'] ... min_green_time
+    def get_signals(self):
+        X = {}
+        for oact in self.otmwrapper.otm.scenario().get_actuators():
+            if str(oact.getType())=='signal':
+                psig = {}
+                psig['node_id'] = oact.getTarget_id()
+                psig['phases'] = {}
+                for phase in oact.get_phases():
+                    x = {}
+                    x['rcs'] = phase.getRoad_connections()
+                    x['y'] = phase.getYellow_time()
+                    x['r'] = phase.getRed_clear_time()
+                    x['ming'] = phase.getMin_green_time()
+                    psig['phases'][phase.getId()] = x
+                X[oact.getId()] = psig
 
-    #             pcntrl = {}
-    #             pcntrl['stages'] = []
-
-    #             # print(controller)
-    #             for sch in ocntrl.getSchedule():
-    #                 # print(sch.getCycle())
-    #                 # print(sch.getOffset())
-    #                 # print(sch.getStart_time())
-    #                 for stage in sch.getStages():
-    #                     print(stage.getOrder())
-    #                     print(stage.getDuration())
-    #                     print(stage.getCycle_starttime())
-
-    #             X[ocntrl.getId()] = pcntrl
+        return X      
 
     # returns map from controller id to an controller object (a dict)
-    # cntrl['cycle']
-    # cntrl['offset']
-    # cntrl['stages'] an ordered list of stage dicts:
-    #   stage['duration']
-    #   stage['phases']
-    # ordered list of stages
-    # each stage is a dictionary with phases (a set) and duration (a float)
-    def get_controller_info(self):
+    # X['cycle']
+    # X['offset']
+    # X['stages'] an ordered list of stage dicts:
+    #   x['duration']
+    #   x['phases']
+    def get_controller_infos(self):
         X = {} # id to controller
-        for ocntrl in self.otmwrapper.otm.scenario().get_controllers():
+        for ocntrl in self.otmwrapper.otm.scenario().get_controller_infos():
             if str(ocntrl.getType())=='sig_pretimed':
 
                 cntrl = {}
@@ -98,11 +95,19 @@ class OTM4RL:
 
         return X
 
-    def set_signals(self,signal_command):
-        self.otmwrapper.otm.scenario().set_signal_stage(signal_command['id'],signal_command['green_stage_order'])
+    # action is a dictionar from controller id to stage index
+    def set_control(self,action):
+        for ctrl_id, stage_index in action.items():
+            cntrl = self.otmwrapper.otm.scenario().get_actual_controller_with_id(ctrl_id)
+            cntrl.set_stage_index(stage_index)
 
-    def get_signals(self):
-        pass
+    # returns is a dictionary from controller id to stage index
+    def get_control(self):
+        X = {}
+        for ctrl_id in self.otmwrapper.otm.scenario().get_controller_ids():
+            cntrl = self.otmwrapper.otm.scenario().get_actual_controller_with_id(ctrl_id)
+            X[ctrl_id] = cntrl.get_stage_index()
+        return X
 
     def get_roadconnection_info(self, phase_id):
         #return [{roadconnection_id: ..., in_link: ..., out_link: ...}, {...}]

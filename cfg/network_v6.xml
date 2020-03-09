@@ -273,45 +273,48 @@
   <controllers>
 
     <controller id="1" type="sig_pretimed">
-    <target_actuators ids="1"/>
-      <schedule>
-        <schedule_item start_time="0" cycle="100" offset="30">
-          <stages>
-            <stage order="0" phases="1,6" duration="30"/>
-            <stage order="1" phases="7" duration="20"/>
-            <stage order="2" phases="12" duration="20"/>
-            <stage order="3" phases="13,14" duration="30"/>
-          </stages>
-        </schedule_item>
-      </schedule>
+      <target_actuators ids="1"/>
+      <parameters>
+        <parameter name="start_time" value="0"/>
+        <parameter name="cycle" value="100"/>
+        <parameter name="offset" value="30"/>
+      </parameters>
+      <stages>
+        <stage phases="1,6" duration="30"/>
+        <stage phases="7" duration="20"/>
+        <stage phases="12" duration="20"/>
+        <stage phases="13,14" duration="30"/>
+      </stages>
     </controller>
 
     <controller id="2" type="sig_pretimed">
-    <target_actuators ids="2"/>
-      <schedule>
-        <schedule_item start_time="0" cycle="100" offset="30">
-          <stages>
-            <stage order="0" phases="2,5" duration="30"/>
-            <stage order="1" phases="8" duration="20"/>
-            <stage order="2" phases="11" duration="20"/>
-            <stage order="3" phases="15,16" duration="30"/>
-          </stages>
-        </schedule_item>
-      </schedule>
+      <target_actuators ids="2"/>
+      <parameters>
+        <parameter name="start_time" value="0"/>
+        <parameter name="cycle" value="100"/>
+        <parameter name="offset" value="30"/>
+      </parameters>
+      <stages>
+        <stage phases="2,5" duration="30"/>
+        <stage phases="8" duration="20"/>
+        <stage phases="11" duration="20"/>
+        <stage phases="15,16" duration="30"/>
+      </stages>
     </controller>
 
     <controller id="3" type="sig_pretimed">
-    <target_actuators ids="3"/>
-      <schedule>
-        <schedule_item start_time="0" cycle="100" offset="30">
-          <stages>
-            <stage order="0" phases="3,4" duration="30"/>
-            <stage order="1" phases="9" duration="20"/>
-            <stage order="2" phases="10" duration="20"/>
-            <stage order="3" phases="17,18" duration="30"/>
-          </stages>
-        </schedule_item>
-      </schedule>
+      <target_actuators ids="3"/>
+      <parameters>
+        <parameter name="start_time" value="0"/>
+        <parameter name="cycle" value="100"/>
+        <parameter name="offset" value="30"/>
+      </parameters>
+      <stages>
+        <stage phases="3,4" duration="30"/>
+        <stage phases="9" duration="20"/>
+        <stage phases="10" duration="20"/>
+        <stage phases="17,18" duration="30"/>
+      </stages>
     </controller>
 
   </controllers>
