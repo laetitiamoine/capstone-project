@@ -126,7 +126,7 @@
       <roadconnection id="22" in_link="12" out_link="10" />
       <roadconnection id="23" in_link="12" out_link="13" />
       <roadconnection id="24" in_link="12" out_link="3" />
-
+   
       <roadconnection id="25" in_link="14" out_link="15" />
 
       <roadconnection id="26" in_link="15" out_link="3" />
@@ -159,298 +159,159 @@
 
     </roadconnections>
 
-
 	</network>
-
-
 
 	 <splits>
 
-    <split_node node_id="2" commodity_id="1" link_in="2" start_time="0" dt="1">
-
+    <split_node node_id="2" commodity_id="1" link_in="2">
       <split link_out="16">0.005</split>
-
       <split link_out="3">0.99</split>
-
       <split link_out="13">0.005</split>
-
     </split_node>
 
-
-
-    <split_node node_id="3" commodity_id="1" link_in="3" start_time="0" dt="1">
-
+    <split_node node_id="3" commodity_id="1" link_in="3">
       <split link_out="22">0.005</split>
-
       <split link_out="4">0.99</split>
-
       <split link_out="19">0.005</split>
-
     </split_node>
 
-
-
-    <split_node node_id="4" commodity_id="1" link_in="4" start_time="0" dt="1">
-
+    <split_node node_id="4" commodity_id="1" link_in="4">
       <split link_out="28">0.005</split>
-
       <split link_out="5">0.99</split>
-
       <split link_out="25">0.005</split>
-
     </split_node>
 
-
-
-    <split_node node_id="4" commodity_id="1" link_in="7" start_time="0" dt="1">
-
+    <split_node node_id="4" commodity_id="1" link_in="7">
       <split link_out="25">0.005</split>
-
       <split link_out="8">0.99</split>
-
       <split link_out="28">0.005</split>
-
     </split_node>
 
-
-
-    <split_node node_id="3" commodity_id="1" link_in="8" start_time="0" dt="1">
-
+    <split_node node_id="3" commodity_id="1" link_in="8">
       <split link_out="19">0.005</split>
-
       <split link_out="9">0.99</split>
-
       <split link_out="22">0.005</split>
-
     </split_node>
 
-
-      <split_node node_id="2" commodity_id="1" link_in="9" start_time="0" dt="1">
-
+    <split_node node_id="2" commodity_id="1" link_in="9">
       <split link_out="13">0.005</split>
-
       <split link_out="10">0.99</split>
-
       <split link_out="16">0.005</split>
-
     </split_node>
 
-
-    <split_node node_id="2" commodity_id="1" link_in="12" start_time="0" dt="1">
-
+    <split_node node_id="2" commodity_id="1" link_in="12">
       <split link_out="13">0.7</split>
-
       <split link_out="10">0.3</split>
-
     </split_node>
 
-
-    <split_node node_id="2" commodity_id="1" link_in="15" start_time="0" dt="1">
-
+    <split_node node_id="2" commodity_id="1" link_in="15">
       <split link_out="16">0.7</split>
-
       <split link_out="3">0.3</split>
-
     </split_node>
 
-
-    <split_node node_id="3" commodity_id="1" link_in="21" start_time="0" dt="1">
-
+    <split_node node_id="3" commodity_id="1" link_in="21">
       <split link_out="4">0.7</split>
-
       <split link_out="22">0.3</split>
-
     </split_node>
 
-
-
-    <split_node node_id="3" commodity_id="1" link_in="18" start_time="0" dt="1">
-
+    <split_node node_id="3" commodity_id="1" link_in="18">
       <split link_out="9">0.7</split>
-
       <split link_out="19">0.3</split>
-
     </split_node>
 
-
-    <split_node node_id="4" commodity_id="1" link_in="24" start_time="0" dt="1">
-
+    <split_node node_id="4" commodity_id="1" link_in="24">
       <split link_out="25">0.7</split>
-
       <split link_out="8">0.3</split>
-
     </split_node>
 
-
-    <split_node node_id="4" commodity_id="1" link_in="27" start_time="0" dt="1">
-
+    <split_node node_id="4" commodity_id="1" link_in="27">
       <split link_out="28">0.7</split>
-
       <split link_out="5">0.3</split>
-
     </split_node>
-
 
   </splits>
-
 
   <actuators>
 
     <actuator id="1" type="signal">
-
       <actuator_target type="node" id="2"/>
-
       <signal>
-
         <phase id="1" roadconnection_ids="2,3"    yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="6" roadconnection_ids="18,19" yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="7" roadconnection_ids="4"     yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="12" roadconnection_ids="20"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="13" roadconnection_ids="22,23"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="14" roadconnection_ids="26,27"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
       </signal>
-
     </actuator>
-
-
 
     <actuator id="2" type="signal">
-
       <actuator_target type="node" id="3"/>
-
       <signal>
-
         <phase id="2" roadconnection_ids="5,6"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="8" roadconnection_ids="7"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="5" roadconnection_ids="15,16"     yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="15" roadconnection_ids="30,31"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="16" roadconnection_ids="34,35"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="11" roadconnection_ids="17"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
-
-
       </signal>
-
     </actuator>
-
 
     <actuator id="3" type="signal">
-
       <actuator_target type="node" id="4"/>
-
       <signal>
-
         <phase id="3" roadconnection_ids="8,9"     yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="4" roadconnection_ids="12,13"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="9" roadconnection_ids="10"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="10" roadconnection_ids="14"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="17" roadconnection_ids="38,39"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
         <phase id="18" roadconnection_ids="42,43"   yellow_time="3" red_clear_time="2" min_green_time="5"/>
-
-
       </signal>
-
     </actuator>
-
   </actuators>
-
-
 
   <controllers>
 
     <controller id="1" type="sig_pretimed">
-
     <target_actuators ids="1"/>
-
       <schedule>
-
         <schedule_item start_time="0" cycle="100" offset="30">
-
           <stages>
-
-            <stage order="1" phases="1,6" duration="30"/>
-
-            <stage order="2" phases="7" duration="20"/>
-
-            <stage order="3" phases="12" duration="20"/>
-
-            <stage order="4" phases="13,14" duration="30"/>
-
+            <stage order="0" phases="1,6" duration="30"/>
+            <stage order="1" phases="7" duration="20"/>
+            <stage order="2" phases="12" duration="20"/>
+            <stage order="3" phases="13,14" duration="30"/>
           </stages>
-
         </schedule_item>
-
       </schedule>
-
     </controller>
 
     <controller id="2" type="sig_pretimed">
-
     <target_actuators ids="2"/>
-
       <schedule>
-
         <schedule_item start_time="0" cycle="100" offset="30">
-
           <stages>
-
-
-            <stage order="1" phases="2,5" duration="30"/>
-
-            <stage order="2" phases="8" duration="20"/>
-
-            <stage order="3" phases="11" duration="20"/>
-
-            <stage order="4" phases="15,16" duration="30"/>
-
+            <stage order="0" phases="2,5" duration="30"/>
+            <stage order="1" phases="8" duration="20"/>
+            <stage order="2" phases="11" duration="20"/>
+            <stage order="3" phases="15,16" duration="30"/>
           </stages>
-
         </schedule_item>
-
       </schedule>
-
     </controller>
 
     <controller id="3" type="sig_pretimed">
-
     <target_actuators ids="3"/>
-
       <schedule>
-
         <schedule_item start_time="0" cycle="100" offset="30">
-
           <stages>
-
-            <stage order="1" phases="3,4" duration="30"/>
-
-            <stage order="2" phases="9" duration="20"/>
-
-            <stage order="3" phases="10" duration="20"/>
-
-            <stage order="4" phases="17,18" duration="30"/>
-
+            <stage order="0" phases="3,4" duration="30"/>
+            <stage order="1" phases="9" duration="20"/>
+            <stage order="2" phases="10" duration="20"/>
+            <stage order="3" phases="17,18" duration="30"/>
           </stages>
-
         </schedule_item>
-
       </schedule>
-
     </controller>
 
   </controllers>
