@@ -59,16 +59,15 @@ class OTM4RL:
             if str(ocntrl.getType())=='sig_pretimed':
 
                 cntrl = {}
+                cntrl['cycle'] = ocntrl.getCycle()
+                cntrl['offset'] = ocntrl.getOffset()
 
                 stages = []
-                for schitem in ocntrl.getSchedule():
-                    cntrl['cycle'] = schitem.getCycle()
-                    cntrl['offset'] = schitem.getOffset()
-                    for ostage in schitem.getStages():
-                        stage = {}
-                        stage['duration'] = ostage.getDuration()
-                        stage['phases'] = ostage.getPhases()
-                        stages.append(stage)
+                for ostage in ocntrl.getStages():
+                    stage = {}
+                    stage['duration'] = ostage.getDuration()
+                    stage['phases'] = ostage.getPhases()
+                    stages.append(stage)
 
                 cntrl['stages'] = stages
                 X[ocntrl.getId()] = cntrl
@@ -134,7 +133,8 @@ class OTM4RL:
         for ctrl_id in self.otmwrapper.otm.scenario().get_controller_ids():
             cntrl = self.otmwrapper.otm.scenario().get_actual_controller_with_id(ctrl_id)
             X[ctrl_id] = cntrl.get_stage_index()
-
+        return X
+        # 
     # SET STATE AND ACTION -----------------------------------------
 
     def set_queues(self,queue_dictionary):

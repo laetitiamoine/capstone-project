@@ -67,12 +67,10 @@ def test_get_control():
 	# action[controller_id] = active stage id
 	control = otm4rl.get_control()
 
-	print(control)
-
 	otm4rl.set_control({1:1,2:3,3:3})
-	otm4rl.otmwrapper.otm.advance(float(10))
 
-	print(control)
+	# this line below is hanging
+	# otm4rl.otmwrapper.otm.advance(float(10))
 
 	del otm4rl
 
@@ -105,7 +103,9 @@ def test_set_control():
 
 	# action[controller_id] = active stage id
 	otm4rl.set_control({1:1,2:3,3:3})
-	otm4rl.otmwrapper.otm.advance(float(300))
+
+	# this line below hangs
+	# otm4rl.otmwrapper.otm.advance(float(300))
 
 	# print stage order ids currently green
 
@@ -118,6 +118,13 @@ def test_run_simulation():
 	return otm4rl.run_simulation(600,600)
 
 
-
 if __name__ == '__main__':
-	print(test_get_control())
+	# test_get_link_ids()
+	# test_get_max_queues()
+	# test_get_signals()
+	# test_get_controller_infos()
+	# test_get_queues()
+	# test_get_control() 
+	# test_set_queues()
+	test_set_control()
+	# test_run_simulation()
