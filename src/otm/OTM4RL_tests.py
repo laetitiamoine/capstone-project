@@ -113,7 +113,9 @@ def test_set_control():
 	print(control)
 
 	otm4rl.set_control({1:1,2:3,3:3})
-	otm4rl.otmwrapper.otm.advance(float(300))
+
+	# this line below hangs
+	# otm4rl.otmwrapper.otm.advance(float(300))
 
 	print(control)
 
@@ -126,6 +128,13 @@ def test_run_simulation():
 	return otm4rl.run_simulation(600,600)
 
 
-
 if __name__ == '__main__':
-	print(test_set_control())
+	# test_get_link_ids()
+	# test_get_max_queues()
+	# test_get_signals()
+	# test_get_controller_infos()
+	# test_get_queues()
+	# test_get_control()
+	# test_set_queues()
+	test_set_control()
+	# test_run_simulation()
