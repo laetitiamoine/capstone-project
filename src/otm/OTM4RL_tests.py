@@ -14,20 +14,10 @@ def get_otm4rl():
 
 # GET STATIC -----------------------------------------
 
+# done
 def test_get_link_ids():
 	otm4rl = get_otm4rl()
 	print(otm4rl.get_link_ids())
-
-# done
-def test_get_queues():
-	otm4rl = get_otm4rl()
-
-	otm4rl.otmwrapper.run_simple(start_time=0,duration=3600,output_dt=10)
-
-	queues = otm4rl.get_queues()
-	print(queues)
-
-	# always end by deleting the wrapper
 	del otm4rl
 
 # done
@@ -36,6 +26,7 @@ def test_get_max_queues():
 	print(otm4rl.get_max_queues())
 	del otm4rl
 
+# done
 def test_get_signals():
 
 	otm4rl = get_otm4rl()
@@ -43,13 +34,14 @@ def test_get_signals():
 
 	print('node_id',X[2]['node_id'])
 	for phaseid,phase in X[2]['phases'].items():
-		print(phaseid,'rcs',phase['rcs'])
-		print(phaseid,'y',phase['y'])
-		print(phaseid,'r',phase['r'])
-		print(phaseid,'ming',phase['ming'])
+		print(phaseid,'road_conns',phase['road_conns'])
+		print(phaseid,'yellow_time',phase['yellow_time'])
+		print(phaseid,'red_clear_time',phase['red_clear_time'])
+		print(phaseid,'min_green_time',phase['min_green_time'])
 
 	del otm4rl
 
+# not done
 def test_get_controller_infos():
 	otm4rl = get_otm4rl()
 	X = otm4rl.get_controller_infos()
@@ -64,6 +56,7 @@ def test_get_controller_infos():
 
 # GET STATE AND ACTION -----------------------------------------
 
+# done
 def test_get_queues():
 	otm4rl = get_otm4rl()
 	otm4rl.otmwrapper.run_simple(start_time=0,duration=3600,output_dt=10)
@@ -71,6 +64,7 @@ def test_get_queues():
 	print(queues)
 	del otm4rl
 
+# not done
 def test_get_control():
 
 	otm4rl = get_otm4rl()
@@ -82,15 +76,11 @@ def test_get_control():
 
 	print(control)
 
-	otm4rl.set_control({1:1,2:3,3:3})
-	otm4rl.otmwrapper.otm.advance(float(10))
-
-	print(control)
-
 	del otm4rl
 
 # SET STATE AND ACTION -----------------------------------------
 
+# done
 def test_set_queues():
 	otm4rl = get_otm4rl()
 
@@ -110,6 +100,7 @@ def test_set_queues():
 	# always end by deleting the wrapper
 	del otm4rl
 
+# not done
 def test_set_control():
 
 	otm4rl = get_otm4rl()
@@ -117,10 +108,14 @@ def test_set_control():
 	otm4rl.otmwrapper.otm.advance(float(60))
 
 	# action[controller_id] = active stage id
+	control = otm4rl.get_control()
+
+	print(control)
+
 	otm4rl.set_control({1:1,2:3,3:3})
 	otm4rl.otmwrapper.otm.advance(float(300))
 
-	# print stage order ids currently green
+	print(control)
 
 	del otm4rl
 
@@ -133,4 +128,4 @@ def test_run_simulation():
 
 
 if __name__ == '__main__':
-	print(test_get_control())
+	print(test_set_control())

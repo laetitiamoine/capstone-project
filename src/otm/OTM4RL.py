@@ -15,17 +15,6 @@ class OTM4RL:
     def get_link_ids(self):
         return self.otmwrapper.otm.scenario().get_link_ids()
 
-<<<<<<< HEAD
-    def get_queues(self):
-        otm = self.otmwrapper.otm
-        queues = {}
-        for link_id in self.get_link_ids():
-            X = self.otmwrapper.otm.scenario().get_link_queues(link_id)
-            queues[link_id] = {'waiting':X.waiting(),'transit':X.transit()}
-        return queues
-
-=======
->>>>>>> 0ccbfebadd26abee9c6d597e9ff1b12bae935370
     def get_max_queues(self):
         max_queues = {}
         for link_id in self.otmwrapper.otm.scenario().get_link_ids():
@@ -49,16 +38,16 @@ class OTM4RL:
                 psig['phases'] = {}
                 for phase in oact.get_phases():
                     x = {}
-                    x['rcs'] = phase.getRoad_connections()
-                    x['y'] = phase.getYellow_time()
-                    x['r'] = phase.getRed_clear_time()
-                    x['ming'] = phase.getMin_green_time()
+                    x['road_conns'] = phase.getRoad_connections()
+                    x['yellow_time'] = phase.getYellow_time()
+                    x['red_clear_time'] = phase.getRed_clear_time()
+                    x['min_green_time'] = phase.getMin_green_time()
                     psig['phases'][phase.getId()] = x
                 X[oact.getId()] = psig
 
-        return X      
+        return X
 
-    # returns map from controller id to an controller object (a dict)
+    # returns map from controller id to a controller object (a dict)
     # X['cycle']
     # X['offset']
     # X['stages'] an ordered list of stage dicts:
@@ -139,12 +128,13 @@ class OTM4RL:
             queues[link_id] = {'waiting':X.waiting(),'transit':X.transit()}
         return queues
 
-    # returns is a dictionary from controller id to stage index
+    # returns a dictionary from controller id to stage index
     def get_control(self):
         X = {}
         for ctrl_id in self.otmwrapper.otm.scenario().get_controller_ids():
             cntrl = self.otmwrapper.otm.scenario().get_actual_controller_with_id(ctrl_id)
             X[ctrl_id] = cntrl.get_stage_index()
+        return X
 
     # SET STATE AND ACTION -----------------------------------------
 
@@ -152,7 +142,7 @@ class OTM4RL:
         for link_id, q4link in queue_dictionary.items():
             self.otmwrapper.otm.scenario().set_link_vehicles(link_id,int(q4link['waiting']),int(q4link['transit']))
 
-    # action is a dictionar from controller id to stage index
+    # action is a dictionary from controller id to stage index
     def set_control(self,action):
         for ctrl_id, stage_index in action.items():
             cntrl = self.otmwrapper.otm.scenario().get_actual_controller_with_id(ctrl_id)
