@@ -105,19 +105,17 @@ def test_set_control():
 
 	otm4rl = get_otm4rl()
 	otm4rl.otmwrapper.initialize(float(0))
-	otm4rl.otmwrapper.otm.advance(float(60))
+	otm4rl.otmwrapper.otm.advance(float(70))
 
 	# action[controller_id] = active stage id
-	control = otm4rl.get_control()
 
-	print(control)
+	print(otm4rl.get_control())
 
-	otm4rl.set_control({1:1,2:3,3:3})
-
+	otm4rl.set_control({1:1,2:0,3:1})
 	# this line below hangs
-	# otm4rl.otmwrapper.otm.advance(float(300))
+	otm4rl.otmwrapper.otm.advance(float(100))
 
-	print(control)
+	print(otm4rl.get_control())
 
 	del otm4rl
 
@@ -132,9 +130,9 @@ if __name__ == '__main__':
 	# test_get_link_ids()
 	# test_get_max_queues()
 	# test_get_signals()
-	# test_get_controller_infos()
+	# test_get_controller_infos() # not done
 	# test_get_queues()
-	# test_get_control()
+	# test_get_control() # not done
 	# test_set_queues()
-	test_set_control()
+	test_set_control() # not done
 	# test_run_simulation()
