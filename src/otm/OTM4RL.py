@@ -15,6 +15,54 @@ class OTM4RL:
     def get_link_ids(self):
         return self.otmwrapper.otm.scenario().get_link_ids()
 
+    def get_road_connection_info(self, road_connection_id):
+
+        road_connections = {1: {"in_link":1, "out_link":2},
+                            2: {"in_link":2, "out_link":13},
+                            3: {"in_link":2, "out_link":3},
+                            4: {"in_link":2, "out_link":16},
+                            5: {"in_link":3, "out_link":19},
+                            6: {"in_link":3, "out_link":4},
+                            7: {"in_link":3, "out_link":22},
+                            8: {"in_link":4, "out_link":25},
+                            9: {"in_link":4, "out_link":5},
+                            10: {"in_link":4, "out_link":28},
+                            11: {"in_link":6, "out_link":7},
+                            12: {"in_link":7, "out_link":28},
+                            13: {"in_link":7, "out_link":8},
+                            14: {"in_link":7, "out_link":25},
+                            15: {"in_link":8, "out_link":22},
+                            16: {"in_link":8, "out_link":9},
+                            17: {"in_link":8, "out_link":19},
+                            18: {"in_link":9, "out_link":16},
+                            19: {"in_link":9, "out_link":10},
+                            20: {"in_link":9, "out_link":13},
+                            21: {"in_link":11, "out_link":12},
+                            22: {"in_link":12, "out_link":10},
+                            23: {"in_link":12, "out_link":13},
+                            24: {"in_link":12, "out_link":3},
+                            25: {"in_link":14, "out_link":15},
+                            26: {"in_link":15, "out_link":3},
+                            27: {"in_link":15, "out_link":16},
+                            28: {"in_link":15, "out_link":10},
+                            29: {"in_link":17, "out_link":18},
+                            30: {"in_link":18, "out_link":9},
+                            31: {"in_link":18, "out_link":19},
+                            32: {"in_link":20, "out_link":21},
+                            33: {"in_link":21, "out_link":4},
+                            34: {"in_link":18, "out_link":4},
+                            35: {"in_link":21, "out_link":22},
+                            36: {"in_link":21, "out_link":9},
+                            37: {"in_link":23, "out_link":24},
+                            38: {"in_link":24, "out_link":8},
+                            39: {"in_link":24, "out_link":25},
+                            40: {"in_link":24, "out_link":5},
+                            41: {"in_link":26, "out_link":27},
+                            42: {"in_link":27, "out_link":5},
+                            43: {"in_link":27, "out_link":28},
+                            44: {"in_link":27, "out_link":8}}
+        return road_connections[road_connection_id]
+
     def get_max_queues(self):
         max_queues = {}
         for link_id in self.otmwrapper.otm.scenario().get_link_ids():
@@ -24,7 +72,7 @@ class OTM4RL:
 
     # returns map from signal id to to a signal object (a dict)
     # psig['node_id']
-    # psig['phases'] a map from pphase id to phase object (a dict)
+    # psig['phases'] a map from p"phase_id" to phase object (a dict)
     #       x['rcs'] ... a set of road connection ids
     #       x['y'] ... yellow_time
     #       x['r'] ... red_clear_time
@@ -74,46 +122,16 @@ class OTM4RL:
 
         return X
 
-    # def get_signal_controller_info(self):
-    #     X = [{"controller_id": 1,
-    #           "stages": [{"order_id": 1,
-    #                       "phase_ids": [1, 6]},
-    #                      {"order_id": 2,
-    #                       "phase_ids": [7]},
-    #                      {"order_id": 3,
-    #                       "phase_ids": [12]},
-    #                      {"order_id": 4,
-    #                       "phase_ids": [13, 14]}]},
-    #          {"controller_id": 2,
-    #           "stages": [{"order_id": 1,
-    #                       "phase_ids": [2, 5]},
-    #                      {"order_id": 2,
-    #                       "phase_ids": [8]},
-    #                      {"order_id": 3,
-    #                       "phase_ids": [11]},
-    #                      {"order_id": 4,
-    #                       "phase_ids": [15, 16]}]},
-    #          {"controller_id": 3,
-    #           "stages": [{"order_id": 1,
-    #                       "phase_ids": [3, 4]},
-    #                      {"order_id": 2,
-    #                       "phase_ids": [9]},
-    #                      {"order_id": 3,
-    #                       "phase_ids": [10]},
-    #                      {"order_id": 4,
-    #                       "phase_ids": [17, 18]}]}
-    #         ]
-
     #     # list of dictionary
     #     # for controller in self.otmwrapper.otm.scenario().get_controllers():
-    #     #     if str(controller.getType())=='sig_pretimed':
+    #     #     if str(controller.getType())::'sig_pretimed':
     #     #         print(controller)
     #     #         print(controller.getPretimed_signal_info())
-    #     #         schedule = controller.getPretimed_signal_info().getSchedule()
-    #     #         stagelist = schedule[0].getStages()
-    #     #         # cntrl = {}
-    #     #         # cntrl['id'] = int(controller.getId())
-    #     #         # cntrl['stages'] = []
+    #     #         schedule : controller.getPretimed_signal_info().getSchedule()
+    #     #         stagelist : schedule[0].getStages()
+    #     #         # cntrl : {}
+    #     #         # cntrl['id'] : int(controller.getId())
+    #     #         # cntrl['stages'] : []
 
     #     return X
 
@@ -124,7 +142,7 @@ class OTM4RL:
         queues = {}
         for link_id in self.get_link_ids():
             X = self.otmwrapper.otm.scenario().get_link_queues(link_id)
-            queues[link_id] = {'waiting':X.waiting(),'transit':X.transit()}
+            queues[link_id] = {'waiting': round(X.waiting()),'transit': round(X.transit())}
         return queues
 
     # returns a dictionary from controller id to stage index
@@ -139,15 +157,15 @@ class OTM4RL:
 
     def set_queues(self,queue_dictionary):
         for link_id, q4link in queue_dictionary.items():
-            self.otmwrapper.otm.scenario().set_link_vehicles(link_id,int(q4link['waiting']),int(q4link['transit']))
+            self.otmwrapper.otm.scenario().set_link_vehicles(link_id, round(q4link['waiting']), round(q4link['transit']))
 
     # action is a dictionary from controller id to stage index
     def set_control(self,action):
         for ctrl_id, stage_index in action.items():
             cntrl = self.otmwrapper.otm.scenario().get_actual_controller_with_id(ctrl_id)
-            cntrl.set_stage_index(stage_index)
+            cntrl.set_stage_index(int(stage_index))
 
     # RUN -----------------------------------------
 
-    def run_simulation(self,duration,output_dt):
-        self.otmwrapper.run_simple(start_time=0., duration=duration, output_dt=output_dt)
+    def run_simulation(self,duration):
+        self.otmwrapper.run_simple(start_time=0., duration=duration, output_dt=duration)

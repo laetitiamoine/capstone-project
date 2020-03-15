@@ -14,19 +14,16 @@ def get_otm4rl():
 
 # GET STATIC -----------------------------------------
 
-# done
 def test_get_link_ids():
 	otm4rl = get_otm4rl()
 	print(otm4rl.get_link_ids())
 	del otm4rl
 
-# done
 def test_get_max_queues():
 	otm4rl = get_otm4rl()
 	print(otm4rl.get_max_queues())
 	del otm4rl
 
-# done
 def test_get_signals():
 
 	otm4rl = get_otm4rl()
@@ -41,7 +38,6 @@ def test_get_signals():
 
 	del otm4rl
 
-# not done
 def test_get_controller_infos():
 	otm4rl = get_otm4rl()
 	X = otm4rl.get_controller_infos()
@@ -56,7 +52,6 @@ def test_get_controller_infos():
 
 # GET STATE AND ACTION -----------------------------------------
 
-# done
 def test_get_queues():
 	otm4rl = get_otm4rl()
 	otm4rl.otmwrapper.run_simple(start_time=0,duration=3600,output_dt=10)
@@ -64,7 +59,6 @@ def test_get_queues():
 	print(queues)
 	del otm4rl
 
-# not done
 def test_get_control():
 
 	otm4rl = get_otm4rl()
@@ -80,7 +74,6 @@ def test_get_control():
 
 # SET STATE AND ACTION -----------------------------------------
 
-# done
 def test_set_queues():
 	otm4rl = get_otm4rl()
 
@@ -89,7 +82,7 @@ def test_set_queues():
 	2: {"waiting": 5, "transit": 3}
 	}
 
-	otm4rl.otmwrapper.run_simple(start_time=0,duration=3000,output_dt=10)
+	otm4rl.otmwrapper.run_simple(start_time=0,duration=3000)
 
 	print( otm4rl.get_queues() )
 
@@ -100,7 +93,6 @@ def test_set_queues():
 	# always end by deleting the wrapper
 	del otm4rl
 
-# not done
 def test_set_control():
 
 	otm4rl = get_otm4rl()
@@ -111,7 +103,7 @@ def test_set_control():
 
 	print(otm4rl.get_control())
 
-	otm4rl.set_control({1:1,2:0,3:1})
+	otm4rl.set_control({1:0,2:1,3:1})
 	# this line below hangs
 	otm4rl.otmwrapper.otm.advance(float(100))
 
@@ -123,16 +115,16 @@ def test_set_control():
 
 def test_run_simulation():
 	otm4rl = get_otm4rl()
-	return otm4rl.run_simulation(600,600)
+	return otm4rl.run_simulation(600)
 
 
 if __name__ == '__main__':
 	# test_get_link_ids()
 	# test_get_max_queues()
 	# test_get_signals()
-	# test_get_controller_infos() # not done
+	# test_get_controller_infos()
 	# test_get_queues()
-	# test_get_control() # not done
+	# test_get_control()
 	# test_set_queues()
-	test_set_control() # not done
+	test_set_control()
 	# test_run_simulation()
