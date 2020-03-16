@@ -54,16 +54,25 @@ def test_get_controller_infos():
 
 def test_get_queues():
 	otm4rl = get_otm4rl()
-	otm4rl.otmwrapper.run_simple(start_time=0,duration=3600,output_dt=10)
+	otm4rl.initialize()
+
+	otm4rl.advance(float(500))
 	queues = otm4rl.get_queues()
 	print(queues)
+	otm4rl.advance(float(700))
+	queues = otm4rl.get_queues()
+	print(queues)
+	otm4rl.advance(float(250))
+	queues = otm4rl.get_queues()
+	print(queues)
+
 	del otm4rl
 
 def test_get_control():
 
 	otm4rl = get_otm4rl()
-	otm4rl.otmwrapper.initialize(float(0))
-	otm4rl.otmwrapper.otm.advance(float(60))
+	otm4rl.initialize()
+	otm4rl.advance(float(60))
 
 	# action[controller_id] = active stage id
 	control = otm4rl.get_control()
@@ -82,11 +91,16 @@ def test_set_queues():
 	2: {"waiting": 5, "transit": 3}
 	}
 
-	otm4rl.otmwrapper.run_simple(start_time=0,duration=3000)
+	otm4rl.initialize()
+	otm4rl.advance(float(3000))
 
 	print( otm4rl.get_queues() )
 
 	otm4rl.set_queues(myqueues)
+
+	print( otm4rl.get_queues() )
+
+	otm4rl.advance(float(2300))
 
 	print( otm4rl.get_queues() )
 
@@ -96,26 +110,23 @@ def test_set_queues():
 def test_set_control():
 
 	otm4rl = get_otm4rl()
-	otm4rl.otmwrapper.initialize(float(0))
-	otm4rl.otmwrapper.otm.advance(float(70))
+	otm4rl.initialize()
+	otm4rl.advance(float(70))
 
 	# action[controller_id] = active stage id
 
 	print(otm4rl.get_control())
+	print(otm4rl.get_queues())
 
 	otm4rl.set_control({1:0,2:1,3:1})
+	print(otm4rl.get_queues())
 	# this line below hangs
-	otm4rl.otmwrapper.otm.advance(float(100))
+	otm4rl.advance(float(100))
 
 	print(otm4rl.get_control())
+	print(otm4rl.get_queues())
 
 	del otm4rl
-
-# RUN -----------------------------------------
-
-def test_run_simulation():
-	otm4rl = get_otm4rl()
-	return otm4rl.run_simulation(600)
 
 
 if __name__ == '__main__':
@@ -125,6 +136,5 @@ if __name__ == '__main__':
 	# test_get_controller_infos()
 	# test_get_queues()
 	# test_get_control()
-	# test_set_queues()
-	test_set_control()
-	# test_run_simulation()
+	test_set_queues()
+	# test_set_control()

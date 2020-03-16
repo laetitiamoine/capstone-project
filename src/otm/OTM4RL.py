@@ -166,6 +166,9 @@ class OTM4RL:
             cntrl.set_stage_index(int(stage_index))
 
     # RUN -----------------------------------------
+    def initialize(self):
+        self.otmwrapper.initialize(float(0))
+        self.otmwrapper.otm.advance(float(1))
 
-    def run_simulation(self,duration):
-        self.otmwrapper.run_simple(start_time=0., duration=duration, output_dt=duration)
+    def advance(self, duration):
+        self.otmwrapper.otm.advance(float(duration))

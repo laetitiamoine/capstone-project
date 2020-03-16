@@ -47,20 +47,34 @@ def test_step():
 
 	env.reset()
 	print("Initial state:", env.encode_state(env.otm4rl.get_queues()))
+	print(env.otm4rl.get_queues())
 
 	action = np.random.choice(env.action_space)
 	print("Action 1: ", env.decode_action(action))
 	state, reward = env.step(action)
 	print("Next state:", env.encode_state(env.otm4rl.get_queues()))
 	print("Reward:", reward)
+	print(env.otm4rl.get_queues())
 
 	action = np.random.choice(env.action_space)
 	print("Action 1: ", env.decode_action(action))
 	state, reward = env.step(action)
 	print("Next state:", env.encode_state(env.otm4rl.get_queues()))
 	print("Reward:", reward)
+	print(env.otm4rl.get_queues())
 
 	del env
 
+def test_plot_environment():
+	env = get_env()
+	env.otm4rl.initialize()
+	env.plot_environment().show()
+	env.otm4rl.advance(env.time_step)
+	env.plot_environment().show()
+	env.otm4rl.advance(env.time_step)
+	env.plot_environment().show()
+	env.otm4rl.advance(env.time_step)
+	env.plot_environment().show()
+
 if __name__ == '__main__':
-	print(test_step())
+	test_plot_environment()

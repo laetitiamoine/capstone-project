@@ -1,5 +1,9 @@
 import numpy as np
 from OTM4RL import OTM4RL
+from matplotlib import pyplot as plt
+from matplotlib.collections import LineCollection
+import matplotlib.colors as pltc
+from random import sample
 
 class otmEnvDiscrete:
 
@@ -63,31 +67,111 @@ class otmEnvDiscrete:
         self.state = self.encode_state(state)
 
     def reset(self):
-         state = self.otm4rl.get_max_queues()
+         state = self.max_queues.copy()
          for link_id in state.keys():
             p = np.random.random()
             transit_queue = p*state[link_id]
             q = np.random.random()
             waiting_queue = q*(state[link_id] - transit_queue)
             state[link_id] = {"waiting": round(waiting_queue), "transit": round(transit_queue)}
-         self.otm4rl.run_simulation(10)
+         self.otm4rl.initialize()
          self.set_state(state)
          return self.state
 
-    def step(self, action):
+    def step(self, action, render = False):
         assert action in self.action_space, "%r (%s) invalid" % (action, type(action))
 
         self.otm4rl.set_control(self.decode_action(action))
 
-        self.otm4rl.run_simulation(self.time_step)
+        self.otm4rl.advance(self.time_step)
 
         next_state = self.otm4rl.get_queues()
 
         self.state, state_vec = self.encode_state(next_state)
         reward = -state_vec.sum()
 
+        #self.plot_environment().draw()
+
         return self.state, reward
-    #
+
+    def plot_environment(self):
+        fig, ax = plt.subplots()
+
+        nodes = {}
+        for node_id in self.otm4rl.otmwrapper.otm.scenario().get_node_ids():
+            node_info = self.otm4rl.otmwrapper.otm.scenario().get_node_with_id(node_id)
+            nodes[node_id] = {'x': node_info.getX(), 'y': node_info.getY()}
+
+        lines = []
+        norms = []
+        minX = float('Inf')
+        maxX = -float('Inf')
+        minY = float('Inf')
+        maxY = -float('Inf')
+
+        state = self.otm4rl.get_queues()
+
+        for link_id in self.otm4rl.otmwrapper.otm.scenario().get_link_ids():
+            link_info = self.otm4rl.otmwrapper.otm.scenario().get_link_with_id(link_id)
+
+            start_point = nodes[link_info.getStart_node_id()]
+            end_point = nodes[link_info.getEnd_node_id()]
+
+            x0 = start_point['x']
+            y0 = start_point['y']
+            x1 = end_point['x']
+            y1 = end_point['y']
+
+            if x1-x0 > 0:
+                y0 -= 150
+                y1 -= 150
+
+            if x1-x0 < 0:
+                y0 += 150
+                y1 += 150
+
+            if y1-y0 > 0:
+                x0 += 100
+                x1 += 100
+
+            if y1-y0 < 0:
+                x0 -= 100
+                x1 -= 100
+
+            p0 = (x0, y0)
+            p1 = (x1, y1)
+
+            lines.append([p0, p1])
+            norms.append(state[link_id]["waiting"]/self.max_queues[link_id])
+
+            minX = min([minX, p0[0], p1[0]])
+            maxX = max([maxX, p0[0], p1[0]])
+            minY = min([minY, p0[1], p1[1]])
+            maxY = max([maxY, p0[1], p1[1]])
+
+        cmap = plt.get_cmap('hot')
+        all_colors = [cmap(z) for z in norms]
+        lc = LineCollection(lines, colors = all_colors)
+        lc.set_linewidths(15)
+        ax.add_collection(lc)
+
+        dY = maxY - minY
+        dX = maxX - minX
+
+        if (dY > dX):
+            ax.set_ylim((minY, maxY))
+            c = (maxX + minX) / 2
+            ax.set_xlim((c - dY / 2, c + dY / 2))
+        else:
+            ax.set_xlim((minX, maxX))
+            c = (maxY + minY) / 2
+            ax.set_ylim((c - dX / 2, c + dX / 2))
+
+        return plt
+        # color gradient for links
+        # plot traffic lights
+        # show time
+
     # def render(self, mode='human'):
     #     #plot the queue profile over time
     #     #render the network
